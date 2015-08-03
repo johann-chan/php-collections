@@ -7,7 +7,7 @@
             "email": "jrs@bluekiwi-software.com"
         }
     ],
-    "require": {
+    "require-dev": {
         "phpunit/phpunit": "^4.7"
     },
     "autoload": {
