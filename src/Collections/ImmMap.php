@@ -2,12 +2,11 @@
 
 namespace Collections;
 
-use Collections\Map;
 use Collections\Immutable;
+use Collections\Map;
 
 /**
- * Immutable hashmap, you can not add or remove entries
- * map is like ["a" => 1, "b" => 2]
+ * Immutable Map
  */
 class ImmMap extends Map
 {

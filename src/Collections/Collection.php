@@ -5,7 +5,6 @@ namespace Collections;
 use ArrayAccess;
 use Collections\CollectionInterface;
 use Collections\Implementations\ArrayAccessImplementation;
-use Collections\Implementations\CollectionImplementation;
 use Collections\Implementations\CountableImplementation;
 use Collections\Implementations\IteratorImplementation;
 use Collections\Implementations\JsonSerializableImplementation;
@@ -17,7 +16,6 @@ abstract class Collection implements ArrayAccess, CollectionInterface, Countable
 {
 
     use ArrayAccessImplementation
-      , CollectionImplementation
       , CountableImplementation
       , IteratorImplementation
       , JsonSerializableImplementation;

@@ -3,9 +3,11 @@
 namespace Collections;
 
 use Collections\Collection;
+use Collections\ImmMap;
 use Collections\ImmSequence;
 use Collections\ImmSet;
 use Collections\ImmStructure;
+use Collections\Implementations\CollectionImplementation;
 use Collections\Sequence;
 use Collections\Set;
 use Collections\Structure;
@@ -16,6 +18,8 @@ use Collections\Structure;
  */
 class Map extends Collection
 {
+
+    use CollectionImplementation;
 
 	/**
 	 * @const string
@@ -55,7 +59,7 @@ class Map extends Collection
     }
 
     /**
-     * return new Sequence, base on keys or value of the map
+     * return new Sequence, based on keys or value of the map
      * @param string $use
      * @return Sequence
      */
@@ -65,13 +69,22 @@ class Map extends Collection
     }
 
     /**
-     * return new Set, base on keys or value of the map
+     * return new Set, based on keys or value of the map
      * @param string $use
      * @return Set
      */
     public function toSet($use = self::USE_VALUES)
     {
     	return new Set(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
+    }
+
+    /**
+     * return new Map
+     * @return Map
+     */
+    public function toMap()
+    {
+        return new Map($this->array);
     }
 
     /**
@@ -84,9 +97,9 @@ class Map extends Collection
     }
 
     /**
-     * return new Immutable Sequence, base on keys or value of the map
+     * return new Immutable Sequence, based on keys or value of the map
      * @param string $use
-     * @return Sequence
+     * @return ImmSequence
      */
     public function toImmSequence($use = self::USE_VALUES)
     {
@@ -94,9 +107,9 @@ class Map extends Collection
     }
 
     /**
-     * return new Immutable Set, base on keys or value of the map
+     * return new Immutable Set, based on keys or value of the map
      * @param string $use
-     * @return Set
+     * @return ImmSet
      */
     public function toImmSet($use = self::USE_VALUES)
     {
@@ -104,8 +117,17 @@ class Map extends Collection
     }
 
     /**
+     * return new Immutable Map
+     * @return ImmMap
+     */
+    public function toImmMap()
+    {
+        return new ImmMap($this->array);
+    }
+
+    /**
      * return new Immutable Structure
-     * @return Structure
+     * @return ImmStructure
      */
     public function toImmStructure()
     {

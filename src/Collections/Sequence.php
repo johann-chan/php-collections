@@ -3,6 +3,11 @@
 namespace Collections;
 
 use Collections\Collection;
+use Collections\ImmSequence;
+use Collections\ImmSet;
+use Collections\Implementations\CollectionImplementation;
+use Collections\set;
+use Collections\Sequence;
 
 /**
  * Mutable Sequence
@@ -10,6 +15,8 @@ use Collections\Collection;
  */
 class Sequence extends Collection
 {
+
+    use CollectionImplementation;
 
     /**
      * constructor
@@ -44,8 +51,16 @@ class Sequence extends Collection
     }
 
     /**
-     * return new Set, base on keys or value of the map
-     * @param string $use
+     * return new Sequence
+     * @return Sequence
+     */
+    public function toSequence()
+    {
+        return new Sequence($this->array);
+    }
+
+    /**
+     * return new Set
      * @return Set
      */
     public function toSet()
@@ -54,9 +69,17 @@ class Sequence extends Collection
     }
 
     /**
-     * return new Immutable Set, base on keys or value of the map
-     * @param string $use
-     * @return Set
+     * return new Immutable Sequence
+     * @return ImmSequence
+     */
+    public function toImmSequence()
+    {
+        return new ImmSequence($this->array);
+    }
+
+    /**
+     * return new Immutable Set
+     * @return ImmSet
      */
     public function toImmSet()
     {

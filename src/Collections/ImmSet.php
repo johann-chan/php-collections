@@ -2,12 +2,11 @@
 
 namespace Collections;
 
-use Collections\Set;
 use Collections\Immutable;
+use Collections\Set;
 
 /**
- * Mutable Set
- * Set is a sequence with unique entries
+ * Immutable Set
  */
 class ImmSet extends Set
 {

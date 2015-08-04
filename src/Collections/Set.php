@@ -2,6 +2,9 @@
 
 namespace Collections;
 
+use Collections\Collection;
+use Collections\ImmSequence;
+use Collections\Implementations\CollectionImplementation;
 use Collections\Sequence;
 
 /**
@@ -48,26 +51,6 @@ class Set extends Sequence
         parent::offsetUnset($offset);
         $this->flip = array_flip($this->array);
         return $this;
-    }
-
-    /**
-     * return new Sequence, base on keys or value of the map
-     * @param string $use
-     * @return Set
-     */
-    public function toSequence()
-    {
-        return new Set($this->array);
-    }
-
-    /**
-     * return new Immutable Sequence, base on keys or value of the map
-     * @param string $use
-     * @return Set
-     */
-    public function toImmSequence()
-    {
-        return new ImmSet($this->array);
     }
 
 }

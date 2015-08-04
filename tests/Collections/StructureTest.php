@@ -114,7 +114,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     public function testMap()
     {
         $array = ["a" => 1, "b" => 2, "c" => 3];
-        $struct = new ABCStruct($array);
+        $struct = new Structure($array, ["a", "b", "c"]);
         $highLevelFunction = function($pow) {
             return function($item) use ($pow) {
                 return pow($item, $pow);

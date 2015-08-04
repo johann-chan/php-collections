@@ -2,50 +2,44 @@
 
 namespace Collections;
 
-use Collections\Collection;
-use Collections\ImmMap;
-use Collections\ImmSequence;
-use Collections\ImmSet;
+use Collections\Implementations\CollectionImplementationStruct;
 use Collections\Map;
-use Collections\Sequence;
-use Collections\Set;
 use RuntimeException;
 
 /**
- * Structure is ImmMap with defined keys
+ * Structure is a Map with defined keys
  */
-class Structure extends Collection
+class Structure extends Map
 {
 
-    /**
-     * @const string
-     */
-    const USE_KEYS = "keys";
+    use CollectionImplementationStruct;
 
     /**
-     * @const string
+     * Authorized keys
+     * @var array
      */
-    const USE_VALUES = "values";
+    protected $keys = [];
 
     /**
      * map used to avoid using in_array when checking duplicates
      * @var array
      */
-    private $fields = [];
+    private $flip = [];
 
     /**
      * constructor
      * @param array $array
-     * @param array $fields
+     * @param array $keys
      */
-    public function __construct(array $array, array $fields)
+    public function __construct(array $array, array $keys)
     {
-        $this->fields = array_flip($fields);
-        $keys = array_keys($array);
-        if(!empty(array_diff($fields, $keys)) || !empty(array_diff($keys, $fields))) {
-            throw new RuntimeException("fields missmatching");
+        $this->keys = $keys;
+        $this->flip = array_flip($keys);
+        $arrkeys = array_keys($array);
+        if(!empty(array_diff($arrkeys, $keys)) || !empty(array_diff($keys, $arrkeys))) {
+            throw new RuntimeException("keys missmatching");
         }
-        $this->array = $array;
+        parent::__construct($array);
     }
 
     /**
@@ -53,11 +47,10 @@ class Structure extends Collection
      */
     public function offsetSet($offset, $value)
     {
-        if(!isset($this->fields[$offset])) {
+        if(!isset($this->flip[$offset])) {
             throw new RuntimeException("Can not modify the value corresponding to this key, as it is not defined in structure");
         }
-        $this->array[$offset] = $value;
-        return $this;
+        return parent::offsetSet($offset, $value);
     }
 
     /**
@@ -65,65 +58,7 @@ class Structure extends Collection
      */
     public function offsetUnset($offset)
     {
-        throw new RuntimeException("Can not remove key from structure, as it will create mismatch in fields");
-    }
-
-    /**
-     * return new Sequence, base on keys or value of the map
-     * @param string $use
-     * @return Sequence
-     */
-    public function toSequence($use = self::USE_VALUES)
-    {
-        return new Sequence(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
-    }
-
-    /**
-     * return new Set, base on keys or value of the map
-     * @param string $use
-     * @return Set
-     */
-    public function toSet($use = self::USE_VALUES)
-    {
-        return new Set(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
-    }
-
-    /**
-     * return new Structure
-     * @return Structure
-     */
-    public function toMap()
-    {
-        return new Map($this->array);
-    }
-
-    /**
-     * return new Immutable Sequence, base on keys or value of the map
-     * @param string $use
-     * @return Sequence
-     */
-    public function toImmSequence($use = self::USE_VALUES)
-    {
-        return new ImmSequence(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
-    }
-
-    /**
-     * return new Immutable Set, base on keys or value of the map
-     * @param string $use
-     * @return Set
-     */
-    public function toImmSet($use = self::USE_VALUES)
-    {
-        return new ImmSet(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
-    }
-
-    /**
-     * return new Immutable Structure
-     * @return Structure
-     */
-    public function toImmMap()
-    {
-        return new ImmMap($this->array);
+        throw new RuntimeException("Can not remove key from structure, as it will create mismatch in keys");
     }
 
 }

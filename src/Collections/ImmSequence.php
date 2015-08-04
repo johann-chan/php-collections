@@ -2,12 +2,11 @@
 
 namespace Collections;
 
-use Collections\Sequence;
 use Collections\Immutable;
+use Collections\Sequence;
 
 /**
- * Immutable Sequence, you can not add or remove entries
- * Sequence is like [1, 2, 3, 4, 5]
+ * Immutable Sequence
  */
 class ImmSequence extends Sequence
 {

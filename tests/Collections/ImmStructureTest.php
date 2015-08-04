@@ -114,7 +114,7 @@ class ImmStructureTest extends \PHPUnit_Framework_TestCase
     public function testMap()
     {
         $array = ["a" => 1, "b" => 2, "c" => 3];
-        $struct = new ABCImmStruct($array);
+        $struct = new ImmStructure($array, ["a", "b", "c"]);
         $highLevelFunction = function($pow) {
             return function($item) use ($pow) {
                 return pow($item, $pow);

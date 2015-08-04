@@ -4,17 +4,8 @@ namespace Collections\Implementations;
 
 use Closure;
 
-trait CollectionImplementation
+trait CollectionImplementationStruct
 {
-
-    /**
-     * return a native PHP array
-     * @return Array
-     */
-    public function toArray()
-    {
-        return $this->array;
-    }
 
     /**
      * return new collection with elements satisfying $closure
@@ -23,7 +14,7 @@ trait CollectionImplementation
      */
     public function filter(Closure $closure)
     {
-        return new static(array_filter($this->array, $closure));
+        return new static(array_filter($this->array, $closure), $this->keys);
     }
 
     /**
@@ -33,7 +24,7 @@ trait CollectionImplementation
      */
     public function map(Closure $closure)
     {
-        return new static(array_map($closure, $this->array));
+        return new static(array_map($closure, $this->array), $this->keys);
     }
 
 }

@@ -4,10 +4,9 @@ namespace Collections;
 
 use Collections\Immutable;
 use Collections\Structure;
-use RuntimeException;
 
 /**
- * Structure is ImmMap with defined keys
+ * Immutable Structure
  */
 class ImmStructure extends Structure
 {
