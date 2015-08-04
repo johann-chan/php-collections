@@ -21,15 +21,15 @@ class Map extends Collection
 
     use CollectionImplementation;
 
-	/**
-	 * @const string
-	 */
-	const USE_KEYS = "keys";
+    /**
+     * @const string
+     */
+    const USE_KEYS = "keys";
 
-	/**
-	 * @const string
-	 */
-	const USE_VALUES = "values";
+    /**
+     * @const string
+     */
+    const USE_VALUES = "values";
 
     /**
      * constructor
@@ -65,7 +65,7 @@ class Map extends Collection
      */
     public function toSequence($use = self::USE_VALUES)
     {
-    	return new Sequence(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
+        return new Sequence(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
     }
 
     /**
@@ -75,7 +75,7 @@ class Map extends Collection
      */
     public function toSet($use = self::USE_VALUES)
     {
-    	return new Set(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
+        return new Set(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
     }
 
     /**
@@ -93,7 +93,7 @@ class Map extends Collection
      */
     public function toStructure()
     {
-    	return new Structure($this->array, array_keys($this->array));
+        return new Structure($this->array, array_keys($this->array));
     }
 
     /**
@@ -103,7 +103,7 @@ class Map extends Collection
      */
     public function toImmSequence($use = self::USE_VALUES)
     {
-    	return new ImmSequence(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
+        return new ImmSequence(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
     }
 
     /**
@@ -113,7 +113,7 @@ class Map extends Collection
      */
     public function toImmSet($use = self::USE_VALUES)
     {
-    	return new ImmSet(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
+        return new ImmSet(($use === self::USE_KEYS) ? array_keys($this->array) : array_values($this->array));
     }
 
     /**
@@ -131,7 +131,7 @@ class Map extends Collection
      */
     public function toImmStructure()
     {
-    	return new ImmStructure($this->array, array_keys($this->array));
+        return new ImmStructure($this->array, array_keys($this->array));
     }
 
 }

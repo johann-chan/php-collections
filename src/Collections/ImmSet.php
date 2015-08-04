@@ -11,6 +11,6 @@ use Collections\Set;
 class ImmSet extends Set
 {
 
-	use Immutable;
+    use Immutable;
 
 }

@@ -11,6 +11,6 @@ use Collections\Sequence;
 class ImmSequence extends Sequence
 {
 
-	use Immutable;
+    use Immutable;
 
 }

@@ -33,9 +33,6 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $struct = new Structure($array, ["a", "d"]);
     }
 
-    /**
-     * test toArray method
-     */
     public function testToArray()
     {
         $array = ["a" => 1, "b" => 2, "c" => null];
@@ -43,23 +40,15 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($array, $struct->toArray());
     }
 
-    /**
-     * test json encode
-     */
     public function testJson()
     {
-        $array = ["a" => 1, "b" => 2, "c" => null];
-        $struct = new ABCStruct($array);
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => null]);
         $this->assertEquals('{"a":1,"b":2,"c":null}', $struct->toJSON());
     }
 
-    /**
-     * test getter
-     */
     public function testGetter()
     {
-        $array = ["a" => 1, "b" => 2, "c" => 3];
-        $struct = new ABCStruct($array);
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
         $this->assertEquals(3, $struct->get("c"));
         $this->assertEquals(3, $struct["c"]);
         $this->assertEquals(3, $struct->c);
@@ -75,13 +64,9 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $struct["d"] = 4;
     }
 
-    /**
-     * test setter, update of elements
-     */
     public function testSetterUpdate()
     {
-        $array = ["a" => 1, "b" => 2, "c" => 3];
-        $struct = new ABCStruct($array);
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
         $struct["c"] = 4;
         $struct->c = 5;
         $this->assertEquals(5, $struct->get("c"));
@@ -92,8 +77,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsetter()
     {
-        $array = ["a" => 1, "b" => 2, "c" => 3];
-        $struct = new ABCStruct($array);
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
         unset($struct["c"]);
     }
 
@@ -103,14 +87,10 @@ class StructureTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilter()
     {
-        $array = ["a" => 1, "b" => 2, "c" => 3];
-        $struct = new ABCStruct($array);
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
         $filtered = $struct->filter(function($_) {return ($_ & 1);});
     }
 
-    /**
-     * test map method
-     */
     public function testMap()
     {
         $array = ["a" => 1, "b" => 2, "c" => 3];
@@ -134,10 +114,10 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $array = ["a" => 1, "b" => 2, "c" => 2];
         $struct = new ABCStruct($array);
         $this->assertEquals($array, $struct->toMap()->toArray());
-        $this->assertEquals([1, 2, 2], $struct->toSequence()->toArray()); 
-        $this->assertEquals(["a", "b", "c"], $struct->toSequence(Structure::USE_KEYS)->toArray()); 
-        $this->assertEquals([1, 2], $struct->toSet()->toArray()); 
-        $this->assertEquals(["a", "b", "c"], $struct->toSet(Structure::USE_KEYS)->toArray());        
+        $this->assertEquals([1, 2, 2], $struct->toSequence()->toArray());
+        $this->assertEquals(["a", "b", "c"], $struct->toSequence(Structure::USE_KEYS)->toArray());
+        $this->assertEquals([1, 2], $struct->toSet()->toArray());
+        $this->assertEquals(["a", "b", "c"], $struct->toSet(Structure::USE_KEYS)->toArray());
     }
 
 }

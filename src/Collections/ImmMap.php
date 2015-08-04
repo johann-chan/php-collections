@@ -11,6 +11,6 @@ use Collections\Map;
 class ImmMap extends Map
 {
 
-	use Immutable;
+    use Immutable;
 
 }

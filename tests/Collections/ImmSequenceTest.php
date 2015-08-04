@@ -8,91 +8,30 @@ class ImmSequenceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * test toArray method
+     * @expectedException RuntimeException
      */
-    public function testToArray()
+    public function testSetterUpdate()
     {
-        $array = ["a" => 1, 2, "c" => 3];
-        $seq = new ImmSequence($array);
-        $this->assertEquals([1, 2, 3], $seq->toArray());
-    }
-
-    /**
-     * test json encode
-     */
-    public function testJson()
-    {
-        $array = [1, 2, 3];
-        $seq = new ImmSequence($array);
-        $this->assertEquals("[1,2,3]", $seq->toJSON());
-    }
-
-    /**
-     * test getter
-     */
-    public function testGetter()
-    {
-        $array = [1, 2, 3];
-        $seq = new ImmSequence($array);
-        $this->assertEquals(3, $seq->get(2));
-        $this->assertEquals(3, $seq[2]); //equivalent
+        $seq = new ImmSequence([1, 2, 3]);
+        $seq[2] = 4;
     }
 
     /**
      * @expectedException RuntimeException
      */
-    public function testSetter()
+    public function testSetterInsert()
     {
-        $array = [1, 2, 3];
-        $seq = new ImmSequence($array);
-        $seq[2] = 4;
-        $seq->set(3, 5);
-        $seq["notCorrectKey"] = 6;
-        $seq[] = 7;
-        $this->assertEquals([1, 2, 4, 5, 6, 7], $seq->toArray());
+        $seq = new ImmSequence([1, 2, 3]);
+        $seq[] = 4;
     }
 
     /**
-     * test filter method
+     * @expectedException RuntimeException
      */
-    public function testFilter()
+    public function testUnsetter()
     {
-        $array = [1, 2, 3];
-        $seq = new ImmSequence($array);
-        $filtered = $seq->filter(function($_) {return ($_ & 1);});
-        $this->assertTrue($filtered instanceof ImmSequence);
-        $this->assertEquals($array, $seq->toArray());
-        $this->assertEquals(2, $filtered->count());
-        $this->assertEquals(1, $filtered->get(0));
-        $this->assertEquals(3, $filtered->get(1));
-    }
-
-    /**
-     * test map method
-     */
-    public function testMap()
-    {
-        $array = [1, 2, 3];
-        $seq = new ImmSequence($array);
-        $highLevelFunction = function($pow) {
-            return function($item) use ($pow) {
-                return pow($item, $pow);
-            };
-        };
-        $filtered = $seq->map($highLevelFunction(2));
-        $this->assertTrue($filtered instanceof ImmSequence);
-        $this->assertEquals($array, $seq->toArray());
-        $this->assertEquals(3, $filtered->count());
-        $this->assertEquals(1, $filtered->get(0));
-        $this->assertEquals(4, $filtered->get(1));
-        $this->assertEquals(9, $filtered->get(2));
-    }
-
-    public function testConvertions()
-    {
-        $array = [1, 2, 3, 3];
-        $seq = new ImmSequence($array);
-        $this->assertEquals([1, 2, 3], $seq->toSet()->toArray());      
+        $seq = new ImmSequence([1, 2, 3]);
+        unset($seq[1]);
     }
 
 }

@@ -7,9 +7,6 @@ use Collections\Set;
 class SetTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * test toArray method
-     */
     public function testToArray()
     {
         $array = ["a" => 1, 2, "c" => 3, 3 , 4, 1];
@@ -17,34 +14,22 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 3, 4], $set->toArray());
     }
 
-    /**
-     * test json encode
-     */
     public function testJson()
     {
-        $array = [1, 2, 3];
-        $set = new Set($array);
+        $set = new Set([1, 2, 3]);
         $this->assertEquals("[1,2,3]", $set->toJSON());
     }
 
-    /**
-     * test getter
-     */
     public function testGetter()
     {
-        $array = [1, 2, 3];
-        $set = new Set($array);
+        $set = new Set([1, 2, 3]);
         $this->assertEquals(3, $set->get(2));
         $this->assertEquals(3, $set[2]); //equivalent
     }
 
-    /**
-     * test setter
-     */
     public function testSetter()
     {
-        $array = [1, 2, 3];
-        $set = new Set($array);
+        $set = new Set([1, 2, 3]);
         $set[] = 4;
         $set[2] = 4;
         $set->set(3, 5);
@@ -53,13 +38,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 3, 5, 6], $set->toArray());
     }
 
-    /**
-     * test unsetter
-     */
     public function testUnsetter()
     {
-        $array = [1, 2, 4, 5, 6, 7];
-        $set = new Set($array);
+        $set = new Set([1, 2, 4, 5, 6, 7]);
         $set[] = 5;
         unset($set[3]);
         $this->assertEquals([1, 2, 4, 6, 7], $set->toArray());
@@ -67,9 +48,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 4, 6, 7, 5], $set->toArray());
     }
 
-    /**
-     * test filter method
-     */
     public function testFilter()
     {
         $array = [1, 2, 3];
@@ -82,9 +60,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $filtered->get(1));
     }
 
-    /**
-     * test map method
-     */
     public function testMap()
     {
         $array = [1, 2, 3];
@@ -107,7 +82,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
     {
         $array = [1, 2, 3];
         $set = new Set($array);
-        $this->assertEquals($array, $set->toSequence()->toArray());      
+        $this->assertEquals($array, $set->toSequence()->toArray());
     }
 
 }

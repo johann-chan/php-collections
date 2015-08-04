@@ -7,9 +7,6 @@ use Collections\Sequence;
 class SequenceTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * test toArray method
-     */
     public function testToArray()
     {
         $array = ["a" => 1, 2, "c" => 3];
@@ -17,34 +14,22 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 3], $seq->toArray());
     }
 
-    /**
-     * test json encode
-     */
     public function testJson()
     {
-        $array = [1, 2, 3];
-        $seq = new Sequence($array);
+        $seq = new Sequence([1, 2, 3]);
         $this->assertEquals("[1,2,3]", $seq->toJSON());
     }
 
-    /**
-     * test getter
-     */
     public function testGetter()
     {
-        $array = [1, 2, 3];
-        $seq = new Sequence($array);
+        $seq = new Sequence([1, 2, 3]);
         $this->assertEquals(3, $seq->get(2));
         $this->assertEquals(3, $seq[2]); //equivalent
     }
 
-    /**
-     * test setter
-     */
     public function testSetter()
     {
-        $array = [1, 2, 3];
-        $seq = new Sequence($array);
+        $seq = new Sequence([1, 2, 3]);
         $seq[2] = 4;
         $seq->set(3, 5);
         $seq["notCorrectKey"] = 6;
@@ -52,20 +37,13 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 2, 4, 5, 6, 7], $seq->toArray());
     }
 
-    /**
-     * test unsetter
-     */
     public function testUnsetter()
     {
-        $array = [1, 2, 4, 5, 6, 7];
-        $seq = new Sequence($array);
+        $seq = new Sequence([1, 2, 3, 4, 5, 6]);
         unset($seq[3]);
-        $this->assertEquals([1, 2, 4, 6, 7], $seq->toArray());
+        $this->assertEquals([1, 2, 3, 5, 6], $seq->toArray());
     }
 
-    /**
-     * test filter method
-     */
     public function testFilter()
     {
         $array = [1, 2, 3];
@@ -78,9 +56,6 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $filtered->get(1));
     }
 
-    /**
-     * test map method
-     */
     public function testMap()
     {
         $array = [1, 2, 3];
@@ -103,7 +78,7 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
     {
         $array = [1, 2, 3, 3];
         $seq = new Sequence($array);
-        $this->assertEquals([1, 2, 3], $seq->toSet()->toArray());      
+        $this->assertEquals([1, 2, 3], $seq->toSet()->toArray());
     }
 
 }
