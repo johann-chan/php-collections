@@ -11,7 +11,7 @@ It has 4 types of collections
 
 2 **Sequence** : only numerical index represented in json as [1, 2, 3]
 
-3 **Set** : Sequence with unique entries. Unlike php native array_unique, it somehow remove objects and array (to a certain extend)
+3 **Set** : Sequence with unique entries. Unlike php native array_unique, it somehow remove duplicate objects and array (to a certain extend)
 
 4 **Structure** : Map with defined keys. Every keys must have a corresponding values
 
