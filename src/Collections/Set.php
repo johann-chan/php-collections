@@ -2,6 +2,7 @@
 
 namespace Collections;
 
+use Closure;
 use Collections\Collection;
 use Collections\ImmSequence;
 use Collections\Implementations\CollectionImplementation;
@@ -26,8 +27,9 @@ class Set extends Sequence
      */
     public function __construct(array $array)
     {
-        parent::__construct(array_unique($array));
-        $this->flip = array_flip($this->array);
+        list($array, $flip) = $this->unique($array);
+        $this->flip = $flip;
+        parent::__construct($array);
     }
 
     /**
@@ -35,9 +37,9 @@ class Set extends Sequence
      */
     public function offsetSet($offset, $value)
     {
-        if(!isset($this->flip[$value])) {
+        if(!$this->inArray($value)){
+            $this->flip[$this->toString($value)] = true;
             parent::offsetSet($offset, $value);
-            $this->flip = array_flip($this->array);
         }
         //if value already exist we just ignore it
         return $this;
@@ -48,9 +50,54 @@ class Set extends Sequence
      */
     public function offsetUnset($offset)
     {
+        unset($this->flip[$this->toString($this->array[$offset])]);
         parent::offsetUnset($offset);
-        $this->flip = array_flip($this->array);
         return $this;
+    }
+
+    /**
+     * return a string identifier for any values that are not integer or string
+     * @param mixed $value;
+     * @return string
+     */
+    protected function toString($value)
+    {
+        if(is_object($value)) {
+            $value = spl_object_hash($value);
+        }
+        if(is_array($value)) {
+            $value = md5(serialize($value));
+        }
+        return $value;
+    }
+
+    /**
+     * check if value is already in Collection
+     * @param array $array
+     * @return array
+     */
+    private function inArray($value)
+    {
+        return isset($this->flip[$this->toString($value)]);
+    }
+
+    /**
+     * filter array removing duplicate entries, unlike array_unique this work with array and objects
+     * @param array $array
+     * @return array
+     */
+    private function unique(array $array)
+    {
+        $flip = [];
+        $filtered = array_filter($array, Closure::Bind(function($value) use (&$flip) {
+            $value = $this->toString($value);
+            if(isset($flip[$value])) {
+                return false;
+            }
+            $flip[$value] = true;
+            return true;
+        }, $this, $this));
+        return [$filtered, $flip];
     }
 
 }

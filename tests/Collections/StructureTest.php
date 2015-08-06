@@ -33,6 +33,15 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $struct = new Structure($array, ["a", "d"]);
     }
 
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testConstructExceptionIII()
+    {
+        $array = ["a" => 1, "b" => 2, "c" => 3];
+        $struct = new Structure($array, ["a", new \stdClass]);
+    }
+
     public function testToArray()
     {
         $array = ["a" => 1, "b" => 2, "c" => null];
@@ -91,6 +100,15 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $filtered = $struct->filter(function($_) {return ($_ & 1);});
     }
 
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testFilterKey()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $filtered = $struct->filterKey(function($_) {return $_ === "a";});
+    }
+
     public function testMap()
     {
         $array = ["a" => 1, "b" => 2, "c" => 3];
@@ -118,6 +136,24 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(["a", "b", "c"], $struct->toSequence(Structure::USE_KEYS)->toArray());
         $this->assertEquals([1, 2], $struct->toSet()->toArray());
         $this->assertEquals(["a", "b", "c"], $struct->toSet(Structure::USE_KEYS)->toArray());
+    }
+
+    public function testEmpty()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertFalse($struct->isEmpty());
+    }
+
+    public function testFoldLeft()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals("123", $struct->foldLeft(function($v, $acc) {return (string) $acc . (string) $v;}));
+    }
+
+    public function testFoldRight()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals("321", $struct->foldRight(function($v, $acc) {return (string) $acc . (string) $v;}));
     }
 
 }

@@ -18,6 +18,16 @@ trait CollectionImplementationStruct
     }
 
     /**
+     * return new CollectionInterface with keys satisfying $closure
+     * @param Closure $closure
+     * @return CollectionInterface
+     */
+    public function filterKey(Closure $closure)
+    {
+        return new static(array_filter($this->array, $closure, ARRAY_FILTER_USE_KEY), $this->keys);
+    }
+
+    /**
      * return new collection with applying $closure to each elements
      * @param Closure
      * @return Collection

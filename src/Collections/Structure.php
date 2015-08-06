@@ -33,6 +33,11 @@ class Structure extends Map
      */
     public function __construct(array $array, array $keys)
     {
+        array_walk($keys, function($k) {
+            if(!is_string($k)) {
+                throw new RuntimeException("Keys must only be string");
+            }
+        });
         $this->keys = $keys;
         $this->flip = array_flip($keys);
         $arrkeys = array_keys($array);

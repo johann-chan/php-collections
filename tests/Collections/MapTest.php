@@ -52,6 +52,17 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $filtered->get("c"));
     }
 
+    public function testFilterKey()
+    {
+        $array = ["a" => 1, "b" => 2, "c" => 3];
+        $map = new Map($array);
+        $filtered = $map->filterKey(function($_) {return $_ === "a";});
+        $this->assertTrue($filtered instanceof Map);
+        $this->assertEquals($array, $map->toArray()); //check original Map is not altered
+        $this->assertEquals(1, $filtered->count());
+        $this->assertEquals(1, $filtered->get("a"));
+    }
+
     public function testMap()
     {
         $array = ["a" => 1, "b" => 2, "c" => 3];
@@ -79,6 +90,28 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(["a", "b", "c", "d"], $map->toSequence(Map::USE_KEYS)->toArray());
         $this->assertEquals([1, 2, 3], $map->toSet()->toArray());
         $this->assertEquals(["a", "b", "c", "d"], $map->toSet(Map::USE_KEYS)->toArray());
+    }
+
+    public function testEmpty()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertFalse($map->isEmpty());
+        $map = new Map(["a" => null]);
+        $this->assertFalse($map->isEmpty());
+        $map = new Map([]);
+        $this->assertTrue($map->isEmpty());
+    }
+
+    public function testFoldLeft()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals("1233", $map->foldLeft(function($v, $acc) {return (string) $acc . (string) $v;}));
+    }
+
+    public function testFoldRight()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals("3321", $map->foldRight(function($v, $acc) {return (string) $acc . (string) $v;}));
     }
 
 }
