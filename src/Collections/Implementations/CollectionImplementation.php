@@ -74,7 +74,7 @@ trait CollectionImplementation
     {
         $method = $reverse ? "foldRight" : "foldLeft";
         return $this->$method(function($v, $acc) use ($string) {
-            return $acc === null ? $v : $acc . $string . $v;
+            return $acc === null ? $v : $acc . $string . (string) $v;
         });
     }
 
