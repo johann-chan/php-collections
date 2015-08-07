@@ -12,8 +12,6 @@ use RuntimeException;
 class Structure extends Map
 {
 
-    use CollectionImplementationStruct;
-
     /**
      * Authorized keys
      * @var array
@@ -64,6 +62,29 @@ class Structure extends Map
     public function offsetUnset($offset)
     {
         throw new RuntimeException("Can not remove key from structure, as it will create mismatch in keys");
+    }
+
+    /**
+     * return new instance of this collection
+     * @return Collection
+     */
+    protected function newInstance(Array $array)
+    {
+        return new static($array, $this->keys);
+    }
+
+    /**
+     * return new Structure sorted by key
+     * @return CollectionInterface
+     */
+    public function keySort()
+    {
+        $clone = $this->array;
+        $bool = ksort($clone);
+        if(!$bool) {
+            throw new RuntimeException("sort failed");
+        }
+        return new static($clone, $this->keys);
     }
 
 }

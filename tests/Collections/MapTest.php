@@ -114,4 +114,28 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("3321", $map->foldRight(function($v, $acc) {return (string) $acc . (string) $v;}));
     }
 
+    public function testSort()
+    {
+        $array = ["d" => 8, "e" => -1, "b" => 0];
+        $map = new Map($array);
+        $this->assertEquals(["e" => -1, "b" => 0, "d" => 8], $map->sort()->toArray());
+        $this->assertEquals($array, $map->toArray()); //check that original colection is unaltered
+        $this->assertEquals(["d" => 8, "b" => 0, "e" => -1], $map->sort(function($a, $b) {
+            return ($a === $b) ? 0 : ($a > $b) ? -1 : 1; 
+        })->toArray());
+    }
+
+    public function testKeySort()
+    {
+        $map = new Map(["d" => 1, "e" => 2, "b" => 3]);
+        $this->assertEquals(["b" => 3, "d" => 1, "e" => 2], $map->keySort()->toArray());
+    }
+
+    public function testImplode()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals("1+2+3+3", $map->implode("+"));
+        $this->assertEquals("3+3+2+1", $map->implode("+", true));
+    }
+
 }

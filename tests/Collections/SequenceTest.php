@@ -113,4 +113,22 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(120, $seq->foldRight(function($v, $acc) {return $acc === null ? $v : $acc * $v;}));
     }
 
+    public function testSort()
+    {
+        $array = [1, 2, 3, 4, 5];
+        $seq = new Sequence($array);
+        $this->assertEquals([1, 2, 3, 4, 5], $seq->sort()->toArray());
+        $this->assertEquals($array, $seq->toArray()); //check that original colection is unaltered
+        $this->assertEquals([5, 4, 3, 2, 1], $seq->sort(function($a, $b) {
+            return ($a === $b) ? 0 : ($a > $b) ? -1 : 1; 
+        })->toArray());
+    }
+
+    public function testImplode()
+    {
+        $seq = new Sequence([1, 2, 3, 4, 5]);
+        $this->assertEquals("1+2+3+4+5", $seq->implode("+"));
+        $this->assertEquals("5+4+3+2+1", $seq->implode("+", true));
+    }
+
 }

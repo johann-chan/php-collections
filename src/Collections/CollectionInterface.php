@@ -22,6 +22,12 @@ interface CollectionInterface
     public function filterKey(Closure $closure);
 
     /**
+     * return first element of collection
+     * @return mixed
+     */
+    public function first();
+
+    /**
      * apply closure to every element from left to right
      * @param Closure $closure
      * @return mixed
@@ -36,10 +42,30 @@ interface CollectionInterface
     public function foldRight(Closure $closure);
 
     /**
+     * return string
+     * @param string $string
+     * @param boolean $reverse
+     * @return string
+     */
+    public function implode($string, $reverse = false);
+
+    /**
+     * return the index or key of the value corresponding to $needle, false if not found
+     * @return boolean
+     */
+    //public function indexOf($needle);
+
+    /**
      * return if collection is empty
      * @return boolean
      */
     public function isEmpty();
+
+    /**
+     * return last element of collection
+     * @return mixed
+     */
+    public function last();
 
     /**
      * return new CollectionInterface with $closure applied to every elements
@@ -49,40 +75,24 @@ interface CollectionInterface
     public function map(Closure $closure);
 
     /**
-     * return a native PHP array
-     * @return Array
+     * return CollectionInterface
+     * @param integer $offset
+     * @param integer $limit
+     * @return CollectionInterface
      */
-    public function toArray();
-
-    //COMING SOON =)
+    //public function slice($offset, $limit);
 
     /**
      * return new sorted CollectionInterface
      * @param Closure $closure
      * @return CollectionInterface
      */
-    //public function sort(Closure $closure = null);
+    public function sort(Closure $closure = null);
 
     /**
-     * return string
-     * @param string $string
-     * @return string
+     * return a native PHP array
+     * @return Array
      */
-    //public function implode($string);
-
-    /**
-     * return CollectionInterface
-     * @param integer $offset
-     * @param integer $limit
-     * @return CollectionInterface
-     */
-
-    ///public function slice($offset, $limit);
-
-    //FIRST ITEM
-
-    //LAST ITEM
-
-    //INDEX OF
+    public function toArray();
 
 }

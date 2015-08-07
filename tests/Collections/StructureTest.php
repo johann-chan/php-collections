@@ -156,4 +156,28 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("321", $struct->foldRight(function($v, $acc) {return (string) $acc . (string) $v;}));
     }
 
+    public function testSort()
+    {
+        $array = ["c" => 8, "a" => -1, "b" => 0];
+        $struct = new ABCStruct($array);
+        $this->assertEquals(["a" => -1, "b" => 0, "c" => 8], $struct->sort()->toArray());
+        $this->assertEquals($array, $struct->toArray()); //check that original colection is unaltered
+        $this->assertEquals(["c" => 8, "b" => 0, "a" => -1], $struct->sort(function($a, $b) {
+            return ($a === $b) ? 0 : ($a > $b) ? -1 : 1; 
+        })->toArray());
+    }
+
+    public function testKeySort()
+    {
+        $struct = new Structure(["d" => 1, "e" => 2, "b" => 3], ["e", "d", "b"]);
+        $this->assertEquals(["b" => 3, "d" => 1, "e" => 2], $struct->keySort()->toArray());
+    }
+
+    public function testImplode()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals("1+2+3", $struct->implode("+"));
+        $this->assertEquals("3+2+1", $struct->implode("+", true));
+    }
+
 }

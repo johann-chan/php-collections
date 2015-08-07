@@ -3,6 +3,7 @@
 namespace Collections\Implementations;
 
 use Closure;
+use RuntimeException;
 
 trait CollectionImplementation
 {
@@ -14,7 +15,7 @@ trait CollectionImplementation
      */
     public function filter(Closure $closure)
     {
-        return new static(array_filter($this->array, $closure));
+        return $this->newInstance(array_filter($this->array, $closure));
     }
 
     /**
@@ -24,7 +25,16 @@ trait CollectionImplementation
      */
     public function filterKey(Closure $closure)
     {
-        return new static(array_filter($this->array, $closure, ARRAY_FILTER_USE_KEY));
+        return $this->newInstance(array_filter($this->array, $closure, ARRAY_FILTER_USE_KEY));
+    }
+
+    /**
+     * return first element of collection
+     * @return mixed
+     */
+    public function first()
+    {
+        return reset($this->array);
     }
 
     /**
@@ -38,7 +48,6 @@ trait CollectionImplementation
         foreach($this->array as &$v) {
             $accumulator = $closure($v, $accumulator);
         }
-        unset($v);
         return $accumulator;
     }
 
@@ -53,8 +62,20 @@ trait CollectionImplementation
         foreach(array_reverse($this->array) as $v) {
             $accumulator = $closure($v, $accumulator);
         }
-        unset($v);
         return $accumulator;
+    }
+
+    /**
+     * return string
+     * @param string $string
+     * @return string
+     */
+    public function implode($string, $reverse = false)
+    {
+        $method = $reverse ? "foldRight" : "foldLeft";
+        return $this->$method(function($v, $acc) use ($string) {
+            return $acc === null ? $v : $acc . $string . $v;
+        });
     }
 
     /**
@@ -67,13 +88,41 @@ trait CollectionImplementation
     }
 
     /**
+     * return last element of collection
+     * @return mixed
+     */
+    public function last()
+    {
+        return end($this->array);
+    }
+
+    /**
      * return new collection with applying $closure to each elements
      * @param Closure
      * @return Collection
      */
     public function map(Closure $closure)
     {
-        return new static(array_map($closure, $this->array));
+        return $this->newInstance(array_map($closure, $this->array));
+    }
+
+    /**
+     * return new sorted CollectionInterface
+     * @param Closure $closure
+     * @return CollectionInterface
+     */
+    public function sort(Closure $closure = null)
+    {
+        $clone = $this->array;
+        if($closure !== null) {
+            $bool = uasort($clone, $closure);
+        } else {
+            $bool = asort($clone);
+        }
+        if(!$bool) {
+            throw new RuntimeException("sort failed");
+        }
+        return $this->newInstance($clone);
     }
 
     /**

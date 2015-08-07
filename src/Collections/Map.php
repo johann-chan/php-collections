@@ -11,6 +11,7 @@ use Collections\Implementations\CollectionImplementation;
 use Collections\Sequence;
 use Collections\Set;
 use Collections\Structure;
+use RuntimeException;
 
 /**
  * Mutable hashmap
@@ -132,6 +133,20 @@ class Map extends Collection
     public function toImmStructure()
     {
         return new ImmStructure($this->array, array_keys($this->array));
+    }
+
+    /**
+     * return new Map sorted by key
+     * @return CollectionInterface
+     */
+    public function keySort()
+    {
+        $clone = $this->array;
+        $bool = ksort($clone);
+        if(!$bool) {
+            throw new RuntimeException("sort failed");
+        }
+        return new static($clone);
     }
 
 }

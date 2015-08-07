@@ -26,6 +26,15 @@ abstract class Collection implements ArrayAccess, CollectionInterface, Countable
     protected $array;
 
     /**
+     * return new instance of this collection
+     * @return Collection
+     */
+    protected function newInstance(Array $array)
+    {
+        return new static($array);
+    }
+
+    /**
      * getter
      * @param string $name
      * @return mixed
