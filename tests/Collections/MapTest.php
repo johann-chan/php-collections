@@ -3,6 +3,7 @@
 namespace Collections\Tests;
 
 use Collections\Map;
+use Collections\Sequence;
 
 class MapTest extends \PHPUnit_Framework_TestCase
 {
@@ -161,6 +162,25 @@ class MapTest extends \PHPUnit_Framework_TestCase
     {
         $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
         $this->assertEquals(true, $map->offsetExists("c"));
+    }
+
+    public function testMerge()
+    {
+        $map1 = new Map(["a" => 1, "b" => 2]);
+        $map2 = new Map(["c" => 3, "d" => 3]);
+        $map3 = $map1->merge($map2);
+        $this->assertTrue($map3 instanceof Map);
+        $this->assertEquals(["a" => 1, "b" => 2, "c" => 3, "d" => 3], $map3->toArray());
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testMergeFail()
+    {
+        $map1 = new Map(["a" => 1, "b" => 2]);
+        $seq = new Sequence(["c" => 3, "d" => 3]);
+        $map1->merge($seq);
     }
 
 }

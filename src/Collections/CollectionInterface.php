@@ -3,6 +3,7 @@
 namespace Collections;
 
 use Closure;
+use Collections\Collection;
 
 interface CollectionInterface
 {
@@ -90,11 +91,11 @@ interface CollectionInterface
     public function map(Closure $closure);
 
     /**
-     * return new CollectionInterface 
+     * return new CollectionInterface, merging 2 collections of same types
      * @param CollectionInterface $collection
      * @return CollectionInterface
      */
-    //public function merge($collection);
+    public function merge(Collection $collection);
 
     /**
      * return CollectionInterface

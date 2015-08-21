@@ -3,6 +3,7 @@
 namespace Collections\Tests;
 
 use Collections\Set;
+use Collections\Sequence;
 
 class SetTest extends \PHPUnit_Framework_TestCase
 {
@@ -168,7 +169,25 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $set = new Set([1, 2, 3, 4, 5]);
         $this->assertEquals(true, $set->offsetExists(4));
         $this->assertEquals(false, $set->offsetExists(5));
+    }
 
+    public function testMerge()
+    {
+        $set = new Set([1, 2, 3, 3]);
+        $seq = new Sequence([4, 5, 6, 7, 4]);
+        $set2 = $set->merge($seq->toSet());
+        $this->assertTrue($set2 instanceof Set);
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7], $set2->toArray());
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testMergeFail()
+    {
+        $set = new Set([1, 2, 3, 3]);
+        $seq = new Sequence([4, 5, 6, 7]);
+        $set2 = $set->merge($seq);
     }
 
 }

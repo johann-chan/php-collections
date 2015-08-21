@@ -3,6 +3,7 @@
 namespace Collections\Implementations;
 
 use Closure;
+use Collections\Collection;
 use RuntimeException;
 
 trait CollectionImplementation
@@ -114,6 +115,19 @@ trait CollectionImplementation
     public function map(Closure $closure)
     {
         return $this->newInstance(array_map($closure, $this->array));
+    }
+
+    /**
+     * return new CollectionInterface, merging 2 collections of same types
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    public function merge(Collection $collection)
+    {
+        if(get_class($collection) !== static::class) {
+            throw new RuntimeException("Can only merge collections of same type");
+        }
+        return $this->newInstance(array_merge($this->array, $collection->toArray()));
     }
 
     /**

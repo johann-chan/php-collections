@@ -212,4 +212,13 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $struct->offsetExists("c"));
     }
 
+    public function testMerge()
+    {
+        $struct1 = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $struct2 = new ABCStruct(["a" => 4, "b" => 5, "c" => 6]);
+        $struct3 = $struct1->merge($struct2);
+        $this->assertTrue($struct3 instanceof ABCStruct);
+        $this->assertEquals($struct2->toArray(), $struct3->toArray());
+    }
+
 }
