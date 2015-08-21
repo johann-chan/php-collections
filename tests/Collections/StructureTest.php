@@ -180,4 +180,36 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("3+2+1", $struct->implode("+", true));
     }
 
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testSlice()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals(["b" => 2, "c" => 3], $struct->slice(1, -1)->toArray());
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testSplice()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals(["b" => 2, "c" => 3], $struct->splice(0)->toArray());
+    }
+
+
+    public function testIndexOf()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals("b", $struct->indexOf(2));
+        $this->assertEquals("c", $struct->indexOf(3));
+    }
+
+    public function testOffsetExists()
+    {
+        $struct = new ABCStruct(["a" => 1, "b" => 2, "c" => 3]);
+        $this->assertEquals(true, $struct->offsetExists("c"));
+    }
+
 }

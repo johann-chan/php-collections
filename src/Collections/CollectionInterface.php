@@ -8,6 +8,13 @@ interface CollectionInterface
 {
 
     /**
+     * return new CollectionInterface 
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    //public function diff($collection);
+
+    /**
      * return new CollectionInterface with elements satisfying $closure
      * @param Closure $closure
      * @return CollectionInterface
@@ -51,9 +58,17 @@ interface CollectionInterface
 
     /**
      * return the index or key of the value corresponding to $needle, false if not found
-     * @return boolean
+     * @param mixed $needle
+     * @return mixed
      */
-    //public function indexOf($needle);
+    public function indexOf($needle);
+
+    /**
+     * return new CollectionInterface 
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    //public function intersect($collection);
 
     /**
      * return if collection is empty
@@ -75,12 +90,27 @@ interface CollectionInterface
     public function map(Closure $closure);
 
     /**
+     * return new CollectionInterface 
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    //public function merge($collection);
+
+    /**
      * return CollectionInterface
      * @param integer $offset
      * @param integer $limit
      * @return CollectionInterface
      */
-    //public function slice($offset, $limit);
+    public function slice($offset, $limit);
+
+    /**
+     * return CollectionInterface
+     * @param integer $offset
+     * @param integer $length
+     * @return CollectionInterface
+     */
+    public function splice($offset, $length = 1);
 
     /**
      * return new sorted CollectionInterface

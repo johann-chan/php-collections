@@ -145,4 +145,30 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("5+4+3+2+1", $set->implode("+", true));
     }
 
+    public function testSlice()
+    {
+        $set = new Set([1, 2, 3, 4, 5]);
+        $this->assertEquals([2, 3, 4], $set->slice(1, -1)->toArray());
+    }
+
+    public function testSplice()
+    {
+        $set = new Set([1, 2, 3, 4, 5]);
+        $this->assertEquals([1, 2, 4, 5], $set->splice(2)->toArray());
+    }
+
+    public function testIndexOf()
+    {
+        $set = new Set([1, 2, 3, 4, 5]);
+        $this->assertEquals(2, $set->indexOf(3));
+    }
+
+    public function testOffsetExists()
+    {
+        $set = new Set([1, 2, 3, 4, 5]);
+        $this->assertEquals(true, $set->offsetExists(4));
+        $this->assertEquals(false, $set->offsetExists(5));
+
+    }
+
 }

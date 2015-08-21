@@ -131,4 +131,30 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("5+4+3+2+1", $seq->implode("+", true));
     }
 
+    public function testSlice()
+    {
+        $seq = new Sequence([1, 2, 3, 4, 5]);
+        $this->assertEquals([2, 3, 4], $seq->slice(1, -1)->toArray());
+    }
+
+    public function testSplice()
+    {
+        $seq = new Sequence([1, 2, 3, 4, 5]);
+        $this->assertEquals([1, 2, 4, 5], $seq->splice(2)->toArray());
+    }
+
+    public function testIndexOf()
+    {
+        $seq = new Sequence([1, 2, 3, 4, 5]);
+        $this->assertEquals(2, $seq->indexOf(3));
+    }
+
+    public function testOffsetExists()
+    {
+        $seq = new Sequence([1, 2, 3, 4, 5]);
+        $this->assertEquals(true, $seq->offsetExists(4));
+        $this->assertEquals(false, $seq->offsetExists(5));
+
+    }
+
 }

@@ -138,4 +138,29 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("3+3+2+1", $map->implode("+", true));
     }
 
+    public function testSlice()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals(["b" => 2, "c" => 3], $map->slice(1, -1)->toArray());
+    }
+
+    public function testSplice()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals(["a" => 1, "d" => 3], $map->splice(1, 2)->toArray());
+    }
+
+    public function testIndexOf()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals("b", $map->indexOf(2));
+        $this->assertEquals("c", $map->indexOf(3));
+    }
+
+    public function testOffsetExists()
+    {
+        $map = new Map(["a" => 1, "b" => 2, "c" => 3, "d" => 3]);
+        $this->assertEquals(true, $map->offsetExists("c"));
+    }
+
 }

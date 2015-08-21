@@ -9,9 +9,9 @@ trait CollectionImplementation
 {
 
     /**
-     * return new collection with elements satisfying $closure
+     * return new CollectionInterface with elements satisfying $closure
      * @param Closure
-     * @return Collection
+     * @return CollectionInterface
      */
     public function filter(Closure $closure)
     {
@@ -79,6 +79,16 @@ trait CollectionImplementation
     }
 
     /**
+     * return the index or key of the value corresponding to $needle, false if not found
+     * @param mixed $needle
+     * @return mixed
+     */
+    public function indexOf($needle)
+    {
+        return array_search($needle, $this->array, true);
+    }
+
+    /**
      * return if collection is empty
      * @return boolean
      */
@@ -97,13 +107,37 @@ trait CollectionImplementation
     }
 
     /**
-     * return new collection with applying $closure to each elements
+     * return new CollectionInterface with applying $closure to each elements
      * @param Closure
-     * @return Collection
+     * @return CollectionInterface
      */
     public function map(Closure $closure)
     {
         return $this->newInstance(array_map($closure, $this->array));
+    }
+
+    /**
+     * return CollectionInterface
+     * @param integer $offset
+     * @param integer $limit
+     * @return CollectionInterface
+     */
+    public function slice($offset, $limit)
+    {
+        return $this->newInstance(array_slice($this->array, $offset, $limit));
+    }
+
+    /**
+     * return CollectionInterface
+     * @param integer $offset
+     * @param integer $length
+     * @return CollectionInterface
+     */
+    public function splice($offset, $length = 1)
+    {
+        $clone = $this->array;
+        array_splice($clone, $offset, $length);
+        return $this->newInstance($clone);
     }
 
     /**
