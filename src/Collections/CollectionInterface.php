@@ -9,11 +9,18 @@ interface CollectionInterface
 {
 
     /**
-     * return new CollectionInterface 
+     * return diff between this collection and $collection
      * @param CollectionInterface $collection
      * @return CollectionInterface
      */
-    //public function diff($collection);
+    public function diff(Collection $collection);
+
+    /**
+     * execute $closure on each elements but return nothing
+     * @param CollectionInterface $collection
+     * @return void
+     */
+    public function each(Closure $closure);
 
     /**
      * return new CollectionInterface with elements satisfying $closure
@@ -65,11 +72,11 @@ interface CollectionInterface
     public function indexOf($needle);
 
     /**
-     * return new CollectionInterface 
+     * return intersection between this collection and $collection
      * @param CollectionInterface $collection
      * @return CollectionInterface
      */
-    //public function intersect($collection);
+    public function intersect(Collection $collection);
 
     /**
      * return if collection is empty

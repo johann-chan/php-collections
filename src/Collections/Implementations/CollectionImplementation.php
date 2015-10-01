@@ -10,6 +10,29 @@ trait CollectionImplementation
 {
 
     /**
+     * return diff between this collection and $collection
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    public function diff(Collection $collection)
+    {
+        if(get_class($collection) !== static::class) {
+            throw new RuntimeException("Can only merge collections of same type");
+        }
+        return $this->newInstance(array_diff($this->array, $collection->toArray()));
+    }
+
+    /**
+     * execute $closure on each elements but return nothing
+     * @param CollectionInterface $collection
+     * @return void
+     */
+    public function each(Closure $closure)
+    {
+        array_walk($this->array, $closure);
+    }
+
+    /**
      * return new CollectionInterface with elements satisfying $closure
      * @param Closure
      * @return CollectionInterface
@@ -87,6 +110,19 @@ trait CollectionImplementation
     public function indexOf($needle)
     {
         return array_search($needle, $this->array, true);
+    }
+
+    /**
+     * return intersection between this collection and $collection
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    public function intersect(Collection $collection)
+    {
+        if(get_class($collection) !== static::class) {
+            throw new RuntimeException("Can only merge collections of same type");
+        }
+        return $this->newInstance(array_intersect($this->array, $collection->toArray()));
     }
 
     /**
